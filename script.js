@@ -1,16 +1,6 @@
 import { randNum, randomSumProblem } from './mentalMathProblems.js';
 
-let options = document.getElementsByClassName('option');
 
-/*
-function toggleHide(element) {
-  if (element.style.display != "none") {
-    elememt.style.display = "none";
-  } else {
-    element.style.display = "block";
-  }
-}
-*/
 function matchCheckToRangeToggle(checkboxElement, display) {
   switch (checkboxElement.name) {
     case 'sums':
@@ -25,18 +15,22 @@ function matchCheckToRangeToggle(checkboxElement, display) {
       
   }
 }
+
+let options = document.getElementsByClassName('option');
+
 for (const optionElementCheckbox of options) {
+
   optionElementCheckbox.addEventListener('change', function() {
     if (optionElementCheckbox.checked) {
       matchCheckToRangeToggle(optionElementCheckbox, 'block')
     } else {
-    matchCheckToRangeToggle(optionElementCheckbox, 'none')
+      matchCheckToRangeToggle(optionElementCheckbox, 'none')
     }
   });
 
-if (optionElementCheckbox.checked) {
+  if (optionElementCheckbox.checked) {
     matchCheckToRangeToggle(optionElementCheckbox, 'block');
-}
+  }
   else {
     matchCheckToRangeToggle(optionElementCheckbox, 'none');
   }

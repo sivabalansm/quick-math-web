@@ -25,15 +25,19 @@ class ProblemMaker {
   }
   
   static makeProduct(arr) {
-    return arr.reduce(function (total, new_multiplication) {
-      return total * new_multiplication;
-    });
+    if (arr.length > 0)
+      return arr.reduce(function (total, new_multiplication) {
+        return total * new_multiplication;
+      });
+    return 0;
   }
   
   static makeDivison(arr) {
-    return arr.reduce(function (total, new_division) {
-      return total / new_division;
-    });
+    if (arr.length > 0)
+      return arr.reduce(function (total, new_division) {
+        return total / new_division;
+      });
+    return 0;
   }
   
   make() {
