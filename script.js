@@ -49,4 +49,16 @@ for (const slider of sliders ) {
   });
 }
 
+// Start Game
+function getOptions() {
+	;
+}
+
+function getGameMode() {
+
+}
+
+function startGame() {
+
+}
 
