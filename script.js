@@ -20,7 +20,7 @@ let options = document.getElementsByClassName('option');
 
 for (const optionElementCheckbox of options) {
 
-  optionElementCheckbox.addEventListener('change', function() {
+optionElementCheckbox.addEventListener('change', function() {
     if (optionElementCheckbox.checked) {
       matchCheckToRangeToggle(optionElementCheckbox, 'block')
     } else {
@@ -35,3 +35,17 @@ for (const optionElementCheckbox of options) {
     matchCheckToRangeToggle(optionElementCheckbox, 'none');
   }
 }
+
+// set output of sliders and event listeners 
+let sliders = document.querySelectorAll("input[type=range]");
+
+for (const slider of sliders ) {
+  
+   slider.nextElementSibling.value = slider.value;
+
+  slider.addEventListener("input", function() {
+  slider.nextElementSibling.value = slider.value;
+  });
+}
+
+
