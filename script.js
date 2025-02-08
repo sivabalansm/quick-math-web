@@ -1,7 +1,41 @@
 import { randNum, randomSumProblem } from './mentalMathProblems.js';
 
 
+class Options {
+  #type;
+  #option1;
+  #option2;
+  constructor(type, option1, option2) {
+    this.type = type;
+    this.option1 = option1;
+    this.option2 = option2;
+  }
+
+  json() {
+    return {
+      "type": this.type,
+      "option1": this.option1,
+      "option2": this.option2,
+    };
+  }
+}
+
 function matchCheckToRangeToggle(checkboxElement, display) {
+  switch (checkboxElement.name) {
+    case 'sums':
+      document.getElementById('sums-customize').style.display = display;
+      break;
+    case 'mult':
+      document.getElementById('mult-customize').style.display = display;
+      break;
+    case 'div':
+      document.getElementById('div-customize').style.display = display;
+      break;
+      
+  }
+}
+
+function matchCheckToRangeValue(checkboxElement) {
   switch (checkboxElement.name) {
     case 'sums':
       document.getElementById('sums-customize').style.display = display;
@@ -55,7 +89,7 @@ function getOptions() {
 }
 
 function getGameMode() {
-
+  ;
 }
 
 function startGame() {
