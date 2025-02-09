@@ -5,18 +5,29 @@ class Options {
   #type;
   #option1;
   #option2;
-  constructor(type, option1, option2) {
-    this.type = type;
-    this.option1 = option1;
-    this.option2 = option2;
+  constructor(type = '', option1 = 0, option2 = 0) {
+    this.#type = type;
+    this.#option1 = option1;
+    this.#option2 = option2;
+  }
+  set type(type) {
+	  this.#type = type;
+  }
+  set option1(option1) {
+	  this.#option1 = option1;
+  }
+  set option2(option2) {
+	  this.#option2 = option2;
   }
 
   json() {
-    return {
-      "type": this.type,
-      "option1": this.option1,
-      "option2": this.option2,
-    };
+    if (this.#type && this.#option1 && this.#option2) 
+      return {
+        "type":    this.#type,
+        "option1": this.#option1,
+        "option2": this.#option2,
+      };
+    throw new Error("All type, option1, option2 must be set");
   }
 }
 
@@ -36,18 +47,26 @@ function matchCheckToRangeToggle(checkboxElement, display) {
 }
 
 function matchCheckToRangeValue(checkboxElement) {
+  let newOption = new Options();
   switch (checkboxElement.name) {
     case 'sums':
-      document.getElementById('sums-customize').style.display = display;
+      newOption.type = 'sums';
+      newOption.option1 = document.getElementById('sums-customize-digits').value;
+      newOption.option2 = document.getElementById('sums-customize-size').value;
       break;
     case 'mult':
-      document.getElementById('mult-customize').style.display = display;
+      newOption.type = 'mult';
+      newOption.option1 = document.getElementById('mult-customize-first-digits').value;
+      newOption.option2 = document.getElementById('mult-customize-second-digits').value;
       break;
     case 'div':
-      document.getElementById('div-customize').style.display = display;
+      newOption.type = 'div';
+      newOption.option1 = document.getElementById('div-customize-first-digits').value;
+      newOption.option2 = document.getElementById('div-customize-second-digits').value;
       break;
       
   }
+  return newOption;
 }
 
 // Link checkbox to sliders, hide and show
@@ -85,14 +104,27 @@ for (const slider of sliders ) {
 
 // Start Game
 function getOptions() {
-	;
-}
-
-function getGameMode() {
-  ;
+  let optionGameArr = [];
+  for (const optionElementCheckbox of options) {
+    if (optionElementCheckbox.checked) {
+      optionGameArr.push(matchCheckToRangeValue(optionElementCheckbox));
+    }
+  }
+  return optionGameArr;
 }
 
 function startGame() {
+  let optionGameArr = getOptions();
+  // type of game
+  if (document.getElementById("countdown").checked) {
+	  ;
 
+  } else if (document.getElementById("quick").checked) {
+	  ;
+
+  } else {
+	  ;
+
+  }
 }
 
