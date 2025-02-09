@@ -1,4 +1,22 @@
 html {
   height: 100%;
   width: 100%;
+  --primary-bg: #323437;
+  --secondary-bg: #2c2e31;
+  --primary-fg: #646669;
+  --secondary-fg: #5c5e61;
+  --heading-fg: #d1d0c5;
+  --primary-yellow: #e2b714;
+  background-color: var(--primary-bg);
+  color: var(--primary-fg);
 }
+
+body h1 {
+	color: var(--heading-fg);
+}
+#options {
+	display: flex;
+	justify-content: center;
+
+}
+
