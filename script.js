@@ -1,6 +1,3 @@
-import { randNum, randomSumProblem } from './mentalMathProblems.js';
-
-
 class Options {
   #type;
   #option1;

@@ -7,16 +7,50 @@ html {
   --secondary-fg: #5c5e61;
   --heading-fg: #d1d0c5;
   --primary-yellow: #e2b714;
+  --hover-color: #d1d0c5;
   background-color: var(--primary-bg);
   color: var(--primary-fg);
+  font-size: 20px;
 }
 
 body h1 {
 	color: var(--heading-fg);
 }
-#options {
-	display: flex;
-	justify-content: center;
+
+input {
+	accent-color: var(--primary-yellow);
 
 }
 
+#game {
+	text-align: center;
+}
+#game > button {
+	text-align: center;
+	background-color: var(--primary-yellow);
+	color: var(--primary-fg);
+	font-size: 20px;
+	border-radius: 20px;
+	border: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-top: 10px;
+}
+#game > button:hover {
+	color: var(--hover-color);
+
+}
+
+#main-menu-container {
+	display: grid;
+	padding: 20px;
+	margin: 80px;
+	grid-row-gap: 10px;
+	border-radius: 30px;
+	justify-items: center;
+	grid-template-coumns: 30px;
+	background-color: var(--secondary-bg);
+
+}
