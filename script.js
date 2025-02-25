@@ -63,7 +63,7 @@ function matchCheckToRangeValue(checkboxElement) {
       break;
       
   }
-  return newOption;
+  return newOption.json();
 }
 
 // Link checkbox to sliders, hide and show
@@ -112,16 +112,20 @@ function getOptions() {
 
 function startGame() {
   let optionGameArr = getOptions();
+  let encodedParamOtions = encodeURIComponent(JSON.stringify(optionGameArr));
+  game_folder = "/game_mode/";
+  param_name = "?options=";
+  game_mode = "";
   // type of game
   if (document.getElementById("countdown").checked) {
-	  ;
+	  game_mode = "countdown.html";
 
   } else if (document.getElementById("quick").checked) {
-	  ;
+	  game_mode = "quick.html";
 
   } else {
-	  ;
-
+	  game_mode = "casual.html";
   }
+  window.location.href = game_folder + game_mode + param_name + encodedParamOtions;
 }
 
