@@ -40,23 +40,23 @@ class ProblemMaker {
     return 0;
   }
   
-  make() {
-    let answer = 0;
+  answer() {
+    let problemAnswer = 0;
     switch (this.#problemType) {
       case "a":
       case "s":
-          answer = ProblemMaker.makeSum(this.#problem);
+          problemAnswer = ProblemMaker.makeSum(this.#problem);
           break;
       case "m":
-          answer = ProblemMaker.makeProduct(this.#problem);
+          problemAnswer = ProblemMaker.makeProduct(this.#problem);
           break;
       case "d":
-          answer = ProblemMaker.makeDivison(this.#problem);
+          problemAnswer = ProblemMaker.makeDivison(this.#problem);
           break;
        default:
           throw new Error("Unknown problemType: " + this.#problemType);
     }
-    return answer;
+    return problemAnswer;
   }
 }
 
