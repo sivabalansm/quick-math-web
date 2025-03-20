@@ -1,4 +1,4 @@
-import { randNum, randomSumProblem } from './mentalMathProblems.js';
+import { maxFromDigits, randNum, randomSumProblem } from './mentalMathProblems.js';
 
 
 const QUICK_MODE_ITERATIONS = 5;
@@ -6,6 +6,12 @@ const QUICK_MODE_ITERATIONS = 5;
 const params = new URLSearchParams(window.location.search);
 const options = JSON.parse(params.get("options"));
 
+/*
+function checkForCorrectAnswer(correctAnswer) {
+	document.getElementById("answer").addEventListener("input", 
+
+}
+*/
 
 for (let problemNum = 1 ; problemNum <= QUICK_MODE_ITERATIONS; problemNum++) {
 
@@ -17,7 +23,7 @@ for (let problemNum = 1 ; problemNum <= QUICK_MODE_ITERATIONS; problemNum++) {
 
 		switch (optionJson.type) {
 			case "sums":
-				currentProblem = randomSumProblem(0, 9999, true, option2);
+				currentProblem = randomSumProblem(0, maxFromDigits(option1), true, option2);
 				break;
 			case "mult":
 				break;
@@ -28,10 +34,7 @@ for (let problemNum = 1 ; problemNum <= QUICK_MODE_ITERATIONS; problemNum++) {
 			document.getElementById("problem").innerHTML = currentProblem.problem;
 			document.getElementById("answer").innerHTML = currentProblem.answer();
 		}
-		
-
 		problemNum++;
-
 	}
 }
 

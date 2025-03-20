@@ -92,6 +92,13 @@ function randomSumProblem(min, max, isSubtraction, size) {
 }
 
 
+function maxFromDigits(digits) {
+	return ((10 ** digits) - 1);
+}
+
+function minFromDigits(digits) {
+	return (10 ** (digits - 1));
+}
 
 // Exports for other files
-export { randNum, randomSumProblem };
+export { maxFromDigits, randNum, randomSumProblem };
