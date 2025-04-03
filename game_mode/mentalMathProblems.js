@@ -40,7 +40,7 @@ class ProblemMaker {
     return 0;
   }
   
-  answer() {
+  getAnswer() {
     let problemAnswer = 0;
     switch (this.#problemType) {
       case "a":
