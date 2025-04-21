@@ -111,21 +111,22 @@ function getOptions() {
 }
 
 function startGame() {
-  let optionGameArr = getOptions();
-  let encodedParamOtions = encodeURIComponent(JSON.stringify(optionGameArr));
+  let gameModeOptions = getOptions();
   game_folder = "/game_mode/";
   param_name = "?options=";
-  game_mode = "";
+  gameMode = "";
   // type of game
   if (document.getElementById("countdown").checked) {
-	  game_mode = "countdown.html";
+	  gameMode = "countdown";
 
   } else if (document.getElementById("quick").checked) {
-	  game_mode = "quick.html";
+	  gameMode = "quick";
 
   } else {
-	  game_mode = "casual.html";
+	  gameMode = "casual";
   }
-  window.location.href = game_folder + game_mode + param_name + encodedParamOtions;
+  let params = { gameMode: gameMode, options: gameModeOptions };
+  let encodedParamOtions = encodeURIComponent(JSON.stringify(params));
+  window.location.href = game_folder + gameMode + ".html" + param_name + encodedParamOtions;
 }
 

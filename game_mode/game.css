@@ -1,0 +1,10 @@
+#problem-container {
+	text-align: center;
+
+}
+#problem {
+	text-align: right;
+	width: max-content;
+	margin: 0 auto;
+}
+
