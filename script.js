@@ -127,6 +127,6 @@ function startGame() {
   }
   let params = { gameMode: gameMode, options: gameModeOptions };
   let encodedParamOtions = encodeURIComponent(JSON.stringify(params));
-  window.location.href = game_folder + gameMode + ".html" + param_name + encodedParamOtions;
+  window.location.href += game_folder + gameMode + ".html" + param_name + encodedParamOtions;
 }
 
