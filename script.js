@@ -112,7 +112,7 @@ function getOptions() {
 
 function startGame() {
   let gameModeOptions = getOptions();
-  game_folder = "/game_mode/";
+  game_folder = "game_mode/";
   param_name = "?options=";
   gameMode = "";
   // type of game
@@ -127,6 +127,6 @@ function startGame() {
   }
   let params = { gameMode: gameMode, options: gameModeOptions };
   let encodedParamOtions = encodeURIComponent(JSON.stringify(params));
-  window.location.href += game_folder + gameMode + ".html" + param_name + encodedParamOtions;
+  window.location.href += game_folder + "game.html" + param_name + encodedParamOtions;
 }
 

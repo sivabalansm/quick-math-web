@@ -4,7 +4,7 @@ class Stopwatch {
 	currentTime;
 	endTime;
 	updateElementFunction = (time) => {
-		const stopwatchElement = document.getElementById("problem-stopwatch")
+		const stopwatchElement = document.getElementById("problem-time-measurement")
 		stopwatchElement.textContent = time;
 	};
 
@@ -36,7 +36,7 @@ class Timer {
 
 	updateInterval = 10;
 	updateElementFunction = (time) => {
-		const timerElement = document.getElementById("problem-stopwatch");
+		const timerElement = document.getElementById("problem-time-measurement");
 		timerElement.textContent = time;
 	}
 
