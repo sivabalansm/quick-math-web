@@ -11,12 +11,15 @@ class ProblemMaker {
   get problem() {
     return this.#problem;
   }
+  get answer() {
+	  return this.getAnswer();
+  }
   get problemType() {
     return this.#problemType;
   }
   
   // Sum of numbers in array
-  static makeSum(arr) {
+  static solveSum(arr) {
     if (arr.length > 0)
       return arr.reduce(function (total, new_addition) {
         return total + new_addition;
@@ -24,7 +27,7 @@ class ProblemMaker {
     return 0;
   }
   
-  static makeProduct(arr) {
+  static solveProduct(arr) {
     if (arr.length > 0)
       return arr.reduce(function (total, new_multiplication) {
         return total * new_multiplication;
@@ -32,7 +35,7 @@ class ProblemMaker {
     return 0;
   }
   
-  static makeDivison(arr) {
+  static solveDivison(arr) {
     if (arr.length > 0)
       return arr.reduce(function (total, new_division) {
         return total / new_division;
@@ -45,13 +48,13 @@ class ProblemMaker {
     switch (this.#problemType) {
       case "a":
       case "s":
-          problemAnswer = ProblemMaker.makeSum(this.#problem);
+          problemAnswer = ProblemMaker.solveSum(this.#problem);
           break;
       case "m":
-          problemAnswer = ProblemMaker.makeProduct(this.#problem);
+          problemAnswer = ProblemMaker.solveProduct(this.#problem);
           break;
       case "d":
-          problemAnswer = ProblemMaker.makeDivison(this.#problem);
+          problemAnswer = ProblemMaker.solveDivison(this.#problem);
           break;
        default:
           throw new Error("Unknown problemType: " + this.#problemType);
@@ -80,7 +83,7 @@ function randomSumProblem(min, max, isSubtraction, size) {
   for (let numCount = 1; numCount <= size; numCount++) {
     let newNum = 0;
     let isCurrentlySubtraction = randNum(0, 1);
-    let sumOfNums = ProblemMaker.makeSum(sum);
+    let sumOfNums = ProblemMaker.solveSum(sum);
     if (sumOfNums > 0 && isSubtraction && isCurrentlySubtraction) {
         newNum = -randNum(0, sumOfNums);
     } else {
@@ -89,6 +92,30 @@ function randomSumProblem(min, max, isSubtraction, size) {
     sum.push(newNum)
   }
   return new ProblemMaker(sum, "s");
+}
+
+function randomMultProblem(firstNumDigits, secondNumDigits) {
+	const randMultNum = (digits) => {
+		return randNum(minFromDigits(digits), maxFromDigits(digits));
+	}
+	let mult = [randMultNum(firstNumDigits), randMultNum(secondNumDigits)].sort();
+	return new ProblemMaker(mult, "m");
+}
+
+function randomDivProblem(firstNumDigits, secondNumDigits) {
+	if (secondNumDigits > firstNumDigits) {
+		// var swap
+		let tmp = secondNumDigits;
+		secondNumDigits = firstNumDigits;
+		firstNumDigits = tmp;
+	}
+	const max = maxFromDigits(firstNumDigits);
+	const min = minFromDigits(firstNumDigits);
+	const secondNum = randNum(minFromDigits(secondNumDigits), maxFromDigits(secondNumDigits));
+	const firstNum = randNum(Math.ceil(min / secondNum), Math.floor(max / secondNum)) * secondNum;
+
+	let div = [firstNum, secondNum];
+	return new ProblemMaker(div, "d");
 }
 
 
@@ -101,4 +128,4 @@ function minFromDigits(digits) {
 }
 
 // Exports for other files
-export { maxFromDigits, randNum, randomSumProblem };
+export { maxFromDigits, randNum, randomSumProblem, randomMultProblem, randomDivProblem };

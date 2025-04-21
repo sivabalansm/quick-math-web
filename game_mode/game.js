@@ -1,4 +1,4 @@
-import { maxFromDigits, randNum, randomSumProblem } from './mentalMathProblems.js';
+import { maxFromDigits, randNum, randomSumProblem, randomMultProblem, randomDivProblem } from './mentalMathProblems.js';
 import { Stopwatch, Timer } from './timeMeasurement.js';
 
 
@@ -64,14 +64,17 @@ async function handleGameDisplay(problemNum, gameModeOptions) { // gameModeOptio
 			currentProblem = randomSumProblem(0, maxFromDigits(option1), true, option2);
 			break;
 		case "mult":
+			currentProblem = randomMultProblem(option1, option2);
 			break;
 		case "div":
+			currentProblem = randomDivProblem(option1, option2);
 			break;
 	}
 	if (currentProblem) {
 		clearAndAppendNumsFromArray(currentProblem.problem);
-		console.log(currentProblem.getAnswer());
-		await waitForCorrectAnswer(currentProblem.getAnswer());
+		
+		console.log(currentProblem.answer);
+		await waitForCorrectAnswer(currentProblem.answer);
 	}
 }
 
