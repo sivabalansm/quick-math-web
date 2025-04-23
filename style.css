@@ -12,10 +12,24 @@ html {
   color: var(--primary-fg);
   font-size: 20px;
 }
+@font-face {
+	font-family: Lexend Deca;
+	src: url(/assets/fonts/LexendDeca-Regular.woff2);
+}
 
-body h1 {
+
+h1 {
+	font-family: Lexend Deca, sans-serif;
 	color: var(--heading-fg);
 }
+
+#logo {
+	color: var(--primary-yellow);
+}
+body {
+	font-famil: "Roboto Mono";
+}
+
 
 input {
 	accent-color: var(--primary-yellow);
