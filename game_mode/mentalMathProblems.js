@@ -9,6 +9,8 @@ class ProblemMaker {
   }
   
   get problem() {
+    if (this.#problemType == "m")
+	  return this.#problem.sort((a, b) => { return b - a }) // reversed sort for multiplication, easier to read and compute for the user
     return this.#problem;
   }
   get answer() {
@@ -98,7 +100,7 @@ function randomMultProblem(firstNumDigits, secondNumDigits) {
 	const randMultNum = (digits) => {
 		return randNum(minFromDigits(digits), maxFromDigits(digits));
 	}
-	let mult = [randMultNum(firstNumDigits), randMultNum(secondNumDigits)].sort().reverse();
+	let mult = [randMultNum(firstNumDigits), randMultNum(secondNumDigits)];
 	return new ProblemMaker(mult, "m");
 }
 
