@@ -13,14 +13,16 @@ const gameModeOptions = gameParams.options;
 // Helper functions
 function waitForCorrectAnswer(correctAnswer) {
 	return new Promise(resolve => {
-		document.getElementById("answer").addEventListener("input", function(event) {
+		const answerElement = document.getElementById("answer");
+		function handleUserAnswer(event) {
 			let inputAnswer = event.target.value;
 			if (inputAnswer == correctAnswer) {
-				event.target.removeEventListener("input", waitForCorrectAnswer);
+				event.target.removeEventListener("input", handleUserAnswer);
 				event.target.value = '';
 				resolve();
 			}
-		});
+		}
+		answerElement.addEventListener("input", handleUserAnswer);
 	});
 }
 
