@@ -73,14 +73,14 @@ for (const optionElementCheckbox of options) {
 
   optionElementCheckbox.addEventListener('change', function() {
     if (optionElementCheckbox.checked) {
-      matchCheckToRangeToggle(optionElementCheckbox, 'block')
+      matchCheckToRangeToggle(optionElementCheckbox, 'grid')
     } else {
       matchCheckToRangeToggle(optionElementCheckbox, 'none')
     }
   });
 
   if (optionElementCheckbox.checked) {
-    matchCheckToRangeToggle(optionElementCheckbox, 'block');
+    matchCheckToRangeToggle(optionElementCheckbox, 'grid');
   }
   else {
     matchCheckToRangeToggle(optionElementCheckbox, 'none');

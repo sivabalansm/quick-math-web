@@ -7,55 +7,60 @@
 </head>
 
 <body>
-    <h1>Quick Math Web</h1>
-    <div id="main-menu-container">
-      <div id="options">
-        <input class="option" type="checkbox" name="sums" checked>
-        <label for="sums">Sums</label>
-        <input class="option" type="checkbox" name="mult" checked>
-        <label for="mult">Multiplication</label>
-        <input class="option" type="checkbox" name="div">
-        <label for="div">Division</label>
-      </div>
-      <div id="customize">
-         <div id="sums-customize">
-           <span>Digits</span>
-           <input type="range" min="1" max="6" value="4" id="sums-customize-digits">
-	   <output></output>
-	   <br>
-           <span>Size</span>
-           <input type="range" min="1" max="10" value="4" id="sums-customize-size">
-           <output></output>
-         </div>
-         <div id="mult-customize">
-           <span>First number</span>
-           <input type="range" min="1" max="6" value="3" id="mult-customize-first-digits">           
-  	   <output></output>
-	   <br>
-           <span>Second number</span>
-           <input type="range" min="1" max="4" value="2" id="mult-customize-second-digits">
-           <output></output>
-         </div>
-         <div id="div-customize">
-            <span>First number</span>
-            <input type="range" min="1" max="10" value="3" id="div-customize-first-digits">           
-  	    <output></output>
-	    <br>
-            <span>Second number</span>
-            <input type="range" min="1" max="10" value="2" id="div-customize-second-digits">
-            <output></output>
-         </div>
-      </div>
-      <div id="game">
-        <form>
-          <input type="radio" id="countdown" name="game-mode" checked> 
-          <label for="countdown">countdown</label>
-          <input type="radio" id="quick" name="game-mode"> 
-          <label for="quick">quick (5 problems)</label>
-          <input type="radio" id="casual" name="game-mode"> 
-          <label for="casual">casual (40 problems)</label>
-        </form>
-        <button onclick="startGame()">Start</button>
+    <center>
+      <h1>Quick Math Web</h1>
+    </center>
+    <div class="center-wrapper">
+      <div id="main-menu-container">
+        <div id="options">
+	  <span>Customize your practice session</span>
+          <label for="sums">Sums</label>
+          <input class="option" type="checkbox" name="sums" checked>
+          <label for="mult">Multiplication</label>
+          <input class="option" type="checkbox" name="mult" checked>
+          <label for="div">Division</label>
+          <input class="option" type="checkbox" name="div">
+        </div>
+        <div id="customize">
+           <div class="grid-customize" id="sums-customize">
+	     <span>Sums</span>
+             <span>Digits</span>
+             <input type="range" min="1" max="6" value="4" id="sums-customize-digits">
+  	     <output></output>
+             <span>Size</span>
+             <input type="range" min="1" max="10" value="4" id="sums-customize-size">
+             <output></output>
+           </div>
+           <div class="grid-customize" id="mult-customize">
+	     <span>Multiplication</span>
+             <span>First number</span>
+             <input type="range" min="1" max="6" value="3" id="mult-customize-first-digits">           
+    	     <output></output>
+             <span>Second number</span>
+             <input type="range" min="1" max="4" value="2" id="mult-customize-second-digits">
+               <output></output>
+           </div>
+           <div class="grid-customize" id="div-customize">
+	     <span>Division</span>
+             <span>First number</span>
+             <input type="range" min="1" max="10" value="3" id="div-customize-first-digits">           
+    	     <output></output>
+             <span>Second number</span>
+             <input type="range" min="1" max="10" value="2" id="div-customize-second-digits">
+               <output></output>
+           </div>
+        </div>
+        <div id="game">
+          <form>
+            <input type="radio" id="countdown" name="game-mode" checked> 
+            <label for="countdown">countdown</label>
+            <input type="radio" id="quick" name="game-mode"> 
+            <label for="quick">quick (5 problems)</label>
+            <input type="radio" id="casual" name="game-mode"> 
+            <label for="casual">casual (40 problems)</label>
+          </form>
+          <button onclick="startGame()">Start</button>
+        </div>
       </div>
     </div>
   <script src="script.js"></script>
