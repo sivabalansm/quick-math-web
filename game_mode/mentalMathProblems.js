@@ -98,7 +98,7 @@ function randomMultProblem(firstNumDigits, secondNumDigits) {
 	const randMultNum = (digits) => {
 		return randNum(minFromDigits(digits), maxFromDigits(digits));
 	}
-	let mult = [randMultNum(firstNumDigits), randMultNum(secondNumDigits)].sort();
+	let mult = [randMultNum(firstNumDigits), randMultNum(secondNumDigits)].sort().reverse();
 	return new ProblemMaker(mult, "m");
 }
 
