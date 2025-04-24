@@ -1,6 +1,6 @@
 html {
-  height: 100%;
-  width: 100%;
+  height: auto;
+  width: auto;
   --primary-bg: #323437;
   --secondary-bg: #2c2e31;
   --primary-fg: #646669;
@@ -17,46 +17,59 @@ html {
 	src: url(/assets/fonts/LexendDeca-Regular.woff2);
 }
 
+/* Debug */
+/*
+* {
+  outline: 1px solid red;
+}
+*/
+
+/* Heading */
+#logo {
+	color: var(--primary-yellow);
+}
 
 h1 {
 	font-family: Lexend Deca, sans-serif;
 	color: var(--heading-fg);
 }
 
-#logo {
-	color: var(--primary-yellow);
-}
+/* The meat of the file */
 body {
 	font-family: "Roboto Mono";
+	height: 100%;
 }
 
 
+/* Any form of input */
 input {
 	accent-color: var(--primary-yellow);
 
 }
 
-#game {
-	text-align: center;
-}
-#game > button {
-	text-align: center;
-	background-color: var(--primary-yellow);
-	color: var(--primary-fg);
-	font-size: 20px;
-	border-radius: 20px;
-	border: 0px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	padding-left: 15px;
-	padding-right: 15px;
-	margin-top: 10px;
-}
-#game > button:hover {
-	color: var(--hover-color);
+/* Wraps menu to the center */
+.center-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
 
 }
 
+/* General small black menu */
+#main-menu-container {
+	display: grid;
+	padding: 20px;
+	margin: 0px;
+	border-radius: 30px;
+	max-width: min-content;
+	grid-row-gap: 10px;
+	grid-template-coumns: 30px;
+	background-color: var(--secondary-bg);
+
+}
+
+/* Sums mult div option selection */
 #options {
 	display: grid;
 	grid-template-columns: 200px 100px 200px;
@@ -69,6 +82,7 @@ input {
 	align-items: center;
 }
 
+/* Customize sums mult and div */
 #customize {
 	display: grid;
 	grid-template-columns: 1fr;
@@ -88,20 +102,106 @@ input {
 	grid-area: 1 / 1 / 3 / 1;
 }
 
-.center-wrapper {
-	display: flex;
-	justify-content: center;
-	align-items: center;
 
-}
-#main-menu-container {
+
+
+/* Game mode selection and after */
+#game {
 	display: grid;
-	padding: 20px;
-	margin: 0px;
-	border-radius: 30px;
-	max-width: min-content;
-	grid-row-gap: 10px;
-	grid-template-coumns: 30px;
-	background-color: var(--secondary-bg);
+	grid-template-columns: 1fr;
+}
+
+#game > form { 
+	display: grid;
+	grid-template-columns: 200px 400px;
+}
+
+/* Start Button */
+#game > button {
+	text-align: center;
+	background-color: var(--primary-yellow);
+	color: var(--primary-fg);
+	font-size: 20px;
+	border-radius: 20px;
+	border: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-top: 10px;
+}
+#game > button:hover {
+	color: var(--hover-color);
 
 }
+
+@media only screen and (max-width: 700px) {
+	html {
+		font-size: 17px;
+	}
+
+	h1 {
+		font-size: 28px;
+	}
+	/* Sums mult div option selection */
+	#options {
+		grid-template-columns: 100px 200px;
+	}
+	
+	#options > span:first-child {
+		grid-area: 1 / 1 / 1 / 3;
+	}
+
+	/* Customize sums mult and div */
+	.grid-customize {
+		display: grid;
+		grid-template-columns: 60px 200px 40px;
+		grid-template-rows: 20px 70px 70px;
+	}
+	
+	.grid-customize > span:first-child {
+		grid-area: 1 / 1 / 1 / 4;
+	}
+
+	/* Game mode selection and after */
+	#game > form {
+		grid-template-columns: 80px 260px;
+	}
+
+}
+
+@media only screen and (max-width: 400px) {
+	html {
+		font-size: 15px;
+	}
+	h1 {
+		font-size: 26px;
+	}
+	/* Sums mult div option selection */
+	#options {
+		grid-template-columns: 80px 160px;
+	}
+	
+	#options > span:first-child {
+		grid-area: 1 / 1 / 1 / 3;
+	}
+
+	/* Customize sums mult and div */
+	.grid-customize {
+		display: grid;
+		grid-template-columns: 50px 180px 30px;
+		grid-template-rows: 20px 70px 70px;
+	}
+	
+	.grid-customize > span:first-child {
+		grid-area: 1 / 1 / 1 / 4;
+	}
+
+	/* Game mode selection and after */
+	#game > form {
+		grid-template-columns: 60px 210px;
+	}
+
+}
+
+
