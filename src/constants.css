@@ -1,0 +1,14 @@
+:root {
+  height: auto;
+  width: auto;
+  --primary-bg: #323437;
+  --secondary-bg: #2c2e31;
+  --primary-fg: #646669;
+  --secondary-fg: #5c5e61;
+  --heading-fg: #d1d0c5;
+  --primary-yellow: #e2b714;
+  --hover-color: #d1d0c5;
+  background-color: var(--primary-bg);
+  color: var(--primary-fg);
+  font-size: 20px;
+}

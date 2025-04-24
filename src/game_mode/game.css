@@ -1,10 +1,44 @@
+@import '../constants.css';
+
+.center-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 #problem-container {
 	text-align: center;
-
+	max-width: fit-content;
+	padding: 20px;
+	border-radius: 30px;
+	background-color: var(--secondary-bg);
 }
+
+.metrics {
+	display: flex;
+	justify-content: space-between;
+	width: 300px;
+}
+
+#problem-number, #problem-time-measurement{
+	color: var(--primary-yellow);
+}
+
 #problem {
+	font-size: 30px;
 	text-align: right;
 	width: max-content;
-	margin: 0 auto;
+	margin: 20px auto;
 }
 
+#answer {
+	border-radius: 20px;
+	font-size: 20px;
+	background-color: var(--primary-bg);
+	color: var(--heading-fg);
+	text-align: center;
+	border: none;
+}
+#answer:focus {
+	outline: 0;
+        box-shadow: 0 0 0 2px var(--primary-yellow); /* or any visible color */
+}

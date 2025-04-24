@@ -2,14 +2,25 @@
 	<head>
 		<title>QMW Game start!</title>
 		<link rel="stylesheet" href="game.css">
+  		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body>
 		
-		<div id="problem-container">
-			<div id="problem-time-measurement">0</div>
-			<div id="problem-number"></div>
-			<div id="problem"></div>
-			<input type="text" id="answer"/>
+		<div class="center-wrapper">
+			<div id="problem-container">
+				<div class="metrics">
+					<div>
+						<span>Problem #</span>
+						<span id="problem-number"></span>
+					</div>
+					<div>
+						<span>Time: </span>
+						<span id="problem-time-measurement">0</span>
+					</div>
+				</div>
+				<div id="problem"></div>
+				<input placeholder="Type answer here" type="text" id="answer"/>
+			</div>
 		</div>
 		<script type="module" src="game.js"></script>
 	</body>
