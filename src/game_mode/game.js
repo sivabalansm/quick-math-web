@@ -111,10 +111,16 @@ function handleGame(gameMode, gameModeOptions) {
 			break;
 		case "countdown":
 			startGame = async () => {
+				const reductionRate = 0.95;
+				let currentTime = 60; // initial time
+				const reduceTime = () => { currentTime = currentTime * reductionRate };
+
 				for (let problemNum = 1;;problemNum++) {
-					let timer = new Timer(10 * 1000);
+					let timer = new Timer(currentTime * 1000, reduceTime);
 					timer.start();
+
 					await handleGameDisplay(problemNum, gameModeOptions);
+
 					console.log(timer.cancel());
 				}
 

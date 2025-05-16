@@ -32,6 +32,7 @@ class Timer {
 	
 	// our two pseudo async functions (setTimeout, setInterval) variable holders
 	#timer;
+	cleanUpFunc;
 	#displayUpdateinterval;
 
 	updateInterval = 10;
@@ -40,9 +41,15 @@ class Timer {
 		timerElement.textContent = time;
 	}
 
-	constructor(time) {
+
+
+	constructor(time, cleanUpFunc = () => null) {
 		this.time = time;
+		this.cleanUpFunc = cleanUpFunc;
 	}
+
+
+
 	start() {
 		this.#startTime = Date.now();
 		this.#timer = setTimeout(() => {
@@ -61,6 +68,7 @@ class Timer {
 	cancel() {
 		clearTimeout(this.#timer);
 		clearInterval(this.#displayUpdateinterval);
+		this.cleanUpFunc();
 		return (Date.now() - this.#startTime);
 	}
 
