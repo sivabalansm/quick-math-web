@@ -77,6 +77,8 @@ async function handleGameDisplay(problemNum, gameModeOptions) { // gameModeOptio
 		
 		console.log(currentProblem.answer);
 		await waitForCorrectAnswer(currentProblem.answer);
+                // return a stat bit that aggregates to a Stat object
+        
 	}
 }
 
@@ -113,7 +115,11 @@ function handleGame(gameMode, gameModeOptions) {
 			startGame = async () => {
 				const reductionRate = 0.95;
 				let currentTime = 60; // initial time
-				const reduceTime = () => { currentTime = currentTime * reductionRate };
+				const reduceTime = () => { currentTime = currentTime * reductionRate }; // add an option to add the stats bit
+                                // create a new stat object to aggregate stats, get time it takes to do 1 problem, make sure stat object has gameModeOptions as a paramter
+                                // new stat point has time taken to do problem, problem, problem type 
+                                // every problem type has a different stat chart
+                                // game-over.js will iterate over stats and make the graphs accordingly
 
 				for (let problemNum = 1;;problemNum++) {
 					let timer = new Timer(currentTime * 1000, reduceTime);

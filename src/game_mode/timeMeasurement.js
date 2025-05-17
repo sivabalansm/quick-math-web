@@ -60,7 +60,7 @@ class Timer {
 		}, this.time);
 
 		this.#displayUpdateinterval = setInterval(() => {
-			this.updateElementFunction((this.getRemainingTime()/1000).toFixed(2));
+			this.updateElementFunction((this.getRemainingTime/1000).toFixed(2));
 		}, this.updateInterval);
 
 	}
@@ -72,12 +72,15 @@ class Timer {
 		return (Date.now() - this.#startTime);
 	}
 
-		
+	// getters
 
-	getRemainingTime() {
-		return this.time - (Date.now() - this.#startTime);
+	get getInitialTime() {
+		return this.time;
 	}
 
+	get getRemainingTime() {
+		return this.time - (Date.now() - this.#startTime);
+	}
 }
 
 export { Stopwatch, Timer };
