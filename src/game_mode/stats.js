@@ -1,5 +1,5 @@
 
-class StatPoint {
+export class StatPoint {
 	// gameModeOption: { type: ..., option1: ..., option2: ... }
 	// problem: [...nums]
 	// time: seconds
@@ -97,7 +97,7 @@ class StatPoint {
 	}
 
 }
-class Stats {
+export class Stats {
         pointList = { 'sums' : [], 'mult' : [], 'div' : [] };
 
         // getters
@@ -106,7 +106,7 @@ class Stats {
 
         }
 
-        constructor(pointList = pointList) {
+        constructor(pointList = this.pointList) {
 		this.pointList = pointList;
         }
 
