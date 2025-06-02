@@ -1,5 +1,6 @@
 import { maxFromDigits, randNum, randomSumProblem, randomMultProblem, randomDivProblem } from './mentalMathProblems.js';
 import { Stopwatch, Timer } from './timeMeasurement.js';
+// import { StatPoint, Stats } from './stats.js';
 
 
 
@@ -45,39 +46,38 @@ function clearNums() {
 	document.getElementById("problem").innerHTML = "";
 }
 
-function clearAndAppendNumsFromArray(numArray) {
+function renderProblem(numArray) {
 	clearNums();
 	appendNumsFromArray(numArray);
 }
 
-
+function generateProblem({ type, option1, option2 }) {
+	switch (type) {
+			case "sums":
+				return randomSumProblem(0, maxFromDigits(option1), true, option2);
+			case "mult":
+				return randomMultProblem(option1, option2);
+			case "div":
+				return randomDivProblem(option1, option2);
+			default:
+				throw new Error("Problem type does not exist");
+	}
+}
 // Handle Game Display and compute the problems
 async function handleGameDisplay(problemNum, gameModeOptions) { // gameModeOptions just contains sums, mult and div options
 	let optionJson = gameModeOptions[(problemNum - 1) % gameModeOptions.length];
 	document.getElementById("problem-number").innerHTML = problemNum;
 
-	const option1 = optionJson.option1;
-	const option2 = optionJson.option2;
-
-	let currentProblem = null;
-
-	switch (optionJson.type) {
-		case "sums":
-			currentProblem = randomSumProblem(0, maxFromDigits(option1), true, option2);
-			break;
-		case "mult":
-			currentProblem = randomMultProblem(option1, option2);
-			break;
-		case "div":
-			currentProblem = randomDivProblem(option1, option2);
-			break;
-	}
+	console.log(optionJson);
+	let currentProblem = generateProblem(optionJson);
+	
 	if (currentProblem) {
-		clearAndAppendNumsFromArray(currentProblem.problem);
+		renderProblem(currentProblem.problem);
 		
 		console.log(currentProblem.answer);
 		await waitForCorrectAnswer(currentProblem.answer);
                 // return a stat bit that aggregates to a Stat object
+		return currentProblem.problem;
         
 	}
 }
@@ -85,6 +85,8 @@ async function handleGameDisplay(problemNum, gameModeOptions) { // gameModeOptio
 // Handle different game 
 function handleGame(gameMode, gameModeOptions) {
 	let startGame = null;
+	// let stats = new Stats();
+	
 	switch (gameMode) {
 		case "casual":
 			startGame = async () => {
