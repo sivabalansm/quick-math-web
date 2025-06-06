@@ -1,4 +1,3 @@
-
 function appendNumsFromArray(numArray) {
 	const problemElement = document.getElementById("problem");
 
@@ -17,4 +16,8 @@ function clearNums() {
 export function renderProblem(numArray) {
 	clearNums();
 	appendNumsFromArray(numArray);
+}
+
+export function renderProblemNum(num) {
+	document.getElementById("problem-number").innerHTML = num;
 }

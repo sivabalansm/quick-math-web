@@ -1,10 +1,10 @@
 import { generateProblem } from './mentalMath/mentalMathProblems.js';
 import { Stopwatch, Timer } from './timeMeasurement.js';
-import { renderProblem } from './render.js';
+import { renderProblem, renderProblemNum } from './render.js';
 // import { StatPoint, Stats } from './stats.js';
 
 
-
+// Params from url for game
 const params = new URLSearchParams(window.location.search);
 const gameParams = JSON.parse(params.get("options"));
 
@@ -12,7 +12,6 @@ const gameMode = gameParams.gameMode;
 const gameModeOptions = gameParams.options;
 
 
-// Helper functions
 function waitForCorrectAnswer(correctAnswer) {
 	return new Promise(resolve => {
 		const answerElement = document.getElementById("answer");
@@ -28,57 +27,51 @@ function waitForCorrectAnswer(correctAnswer) {
 	});
 }
 
-
-// Handle Game Display and compute the problems
-async function handleGameDisplay(problemNum, gameModeOptions) { // gameModeOptions just contains sums, mult and div options
-	let optionJson = gameModeOptions[(problemNum - 1) % gameModeOptions.length];
-	document.getElementById("problem-number").innerHTML = problemNum;
-
-	console.log(optionJson);
+// gameModeOptions just contains sums, mult and div options
+function getNextProblemSet(problemNum, gameModeOptions) {
+        let optionJson = gameModeOptions[(problemNum - 1) % gameModeOptions.length];
 	let currentProblem = generateProblem(optionJson);
-	
-	if (currentProblem) {
-		renderProblem(currentProblem.problem);
+        return { problemNum, currentProblem };
+}
+
+// Handle Game Display 
+async function handleGameDisplay({ problemNum, currentProblem }) { 
+	renderProblemNum(problemNum);
+
+        renderProblem(currentProblem.problem);
 		
-		console.log(currentProblem.answer);
-		await waitForCorrectAnswer(currentProblem.answer);
-                // return a stat bit that aggregates to a Stat object
-		return currentProblem.problem;
+        console.log(currentProblem.answer);
+        await waitForCorrectAnswer(currentProblem.answer);
+        // return a stat bit that aggregates to a Stat object
         
-	}
 }
 
 // Handle different game 
 function handleGame(gameMode, gameModeOptions) {
 	let startGame = null;
 	// let stats = new Stats();
-	
+        const gameFixedNumOfProblems = async (NumOfProblems) => {
+                // Describe the game (look at case name)
+                const stopwatch = new Stopwatch();
+                stopwatch.start();
+                for (let problemNum = 1 ; problemNum <= NumOfProblems; problemNum++) {
+                        let problemSet = getNextProblemSet(problemNum, gameModeOptions);
+                        await handleGameDisplay(problemSet);
+                }
+                console.log(stopwatch.stop());
+        }
+
 	switch (gameMode) {
 		case "casual":
-			startGame = async () => {
-				// Describe the game (look at case name)
-				const stopwatch = new Stopwatch();
-				stopwatch.start();
-				const CASUAL_MODE_ITERATIONS = 40;
-				for (let problemNum = 1 ; problemNum <= CASUAL_MODE_ITERATIONS; problemNum++) {
-					await handleGameDisplay(problemNum, gameModeOptions);
-				}
-				console.log(stopwatch.stop());
-			}
+                        const CASUAL_MODE_ITERATIONS = 40;
+			startGame = gameFixedNumOfProblems(CASUAL_MODE_ITERATIONS);
 			break;
 
 		case "quick":
-			startGame = async () => {
-				// Describe the game (look at case name)
-				const stopwatch = new Stopwatch();
-				stopwatch.start();
-				const QUICK_MODE_ITERATIONS = 5;
-				for (let problemNum = 1 ; problemNum <= QUICK_MODE_ITERATIONS; problemNum++) {
-					await handleGameDisplay(problemNum, gameModeOptions);
-				}
-				console.log(stopwatch.stop());
-			}
-			break;
+                        const QUICK_MODE_ITERATIONS = 5;
+			startGame = gameFixedNumOfProblems(QUICK_MODE_ITERATIONS);
+                        break;
+
 		case "countdown":
 			startGame = async () => {
 				const reductionRate = 0.95;
@@ -93,11 +86,11 @@ function handleGame(gameMode, gameModeOptions) {
 					let timer = new Timer(currentTime * 1000, reduceTime);
 					timer.start();
 
-					await handleGameDisplay(problemNum, gameModeOptions);
+                                        let problemSet = getNextProblemSet(problemNum, gameModeOptions);
+					await handleGameDisplay(problemSet);
 
 					console.log(timer.cancel());
 				}
-
 			}
 			break;
 
