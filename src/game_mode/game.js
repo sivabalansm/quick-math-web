@@ -1,5 +1,6 @@
-import { maxFromDigits, randNum, randomSumProblem, randomMultProblem, randomDivProblem } from './mentalMathProblems.js';
+import { generateProblem } from './mentalMath/mentalMathProblems.js';
 import { Stopwatch, Timer } from './timeMeasurement.js';
+import { renderProblem } from './render.js';
 // import { StatPoint, Stats } from './stats.js';
 
 
@@ -28,41 +29,6 @@ function waitForCorrectAnswer(correctAnswer) {
 }
 
 
-
-
-// Array of numbers -> Html list of elements
-function appendNumsFromArray(numArray) {
-	const problemElement = document.getElementById("problem");
-
-	for (const num of numArray) {
-		const numContainer = document.createElement("div");
-		numContainer.classList.add("equation-number");
-		numContainer.textContent = num;
-		problemElement.appendChild(numContainer);
-	}
-}
-
-function clearNums() {
-	document.getElementById("problem").innerHTML = "";
-}
-
-function renderProblem(numArray) {
-	clearNums();
-	appendNumsFromArray(numArray);
-}
-
-function generateProblem({ type, option1, option2 }) {
-	switch (type) {
-			case "sums":
-				return randomSumProblem(0, maxFromDigits(option1), true, option2);
-			case "mult":
-				return randomMultProblem(option1, option2);
-			case "div":
-				return randomDivProblem(option1, option2);
-			default:
-				throw new Error("Problem type does not exist");
-	}
-}
 // Handle Game Display and compute the problems
 async function handleGameDisplay(problemNum, gameModeOptions) { // gameModeOptions just contains sums, mult and div options
 	let optionJson = gameModeOptions[(problemNum - 1) % gameModeOptions.length];
