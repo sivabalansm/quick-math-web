@@ -2,6 +2,7 @@
 class Stopwatch {
 	startTime;
 	currentTime;
+        lapTime;
 	endTime;
 	updateElementFunction = (time) => {
 		const stopwatchElement = document.getElementById("problem-time-measurement")
@@ -12,12 +13,19 @@ class Stopwatch {
 
 	start() {
 		this.startTime = Date.now();
+                this.lapTime = this.startTime;
 		this.#stopwatch = setInterval(() => {
 			this.currentTime = ((Date.now() - this.startTime)/1000).toFixed(2);
 
 	                this.updateElementFunction(this.currentTime);
 		}, 10);
 	}
+
+        lap() {
+                const timeElapsedSinceLap = this.currentTime - this.lapTime;
+                this.lapTime = this.currentTime;
+                return timeElapsedSinceLap;
+        }
 
 	stop() {
 		this.endTime = Date.now() - this.startTime;
