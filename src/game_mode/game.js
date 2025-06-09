@@ -1,7 +1,7 @@
 import { generateProblem } from './mentalMath/mentalMathProblems.js';
 import { Stopwatch, Timer } from './timeMeasurement.js';
 import { renderProblem, renderProblemNum } from './render.js';
-// import { StatPoint, Stats } from './stats.js';
+import { StatPoint, Stats } from './stats.js';
 
 
 // Params from url for game
@@ -28,14 +28,13 @@ function waitForCorrectAnswer(correctAnswer) {
 }
 
 // gameModeOptions just contains sums, mult and div options
-function getNextProblemSet(problemNum, gameModeOptions) {
-        let optionJson = gameModeOptions[(problemNum - 1) % gameModeOptions.length];
-	let currentProblem = generateProblem(optionJson);
-        return { problemNum, currentProblem };
+function getNextProblemProp(problemNum, gameModeOptions) {
+        const problemProperty = gameModeOptions[(problemNum - 1) % gameModeOptions.length];
+	return problemProperty;
 }
 
 // Handle Game Display 
-async function handleGameDisplay({ problemNum, currentProblem }) { 
+async function handleGameDisplay(problemNum, currentProblem) { 
 	renderProblemNum(problemNum);
 
         renderProblem(currentProblem.problem);
@@ -46,58 +45,106 @@ async function handleGameDisplay({ problemNum, currentProblem }) {
         
 }
 
-// Handle different game 
-function handleGame(gameMode, gameModeOptions) {
-	let startGame = null;
-	// let stats = new Stats();
-        const gameFixedNumOfProblems = async (NumOfProblems) => {
-                // Describe the game (look at case name)
-                const stopwatch = new Stopwatch();
-                stopwatch.start();
-                for (let problemNum = 1 ; problemNum <= NumOfProblems; problemNum++) {
-                        let problemSet = getNextProblemSet(problemNum, gameModeOptions);
-                        await handleGameDisplay(problemSet);
-                }
-                console.log(stopwatch.stop());
+class Game {
+        #stats = new Stats()
+        #game = null
+        #gameModeOptions = null;
+
+        get game() {
+                return this.#game;
         }
 
-	switch (gameMode) {
-		case "casual":
-                        const CASUAL_MODE_ITERATIONS = 40;
-			startGame = gameFixedNumOfProblems(CASUAL_MODE_ITERATIONS);
-			break;
+        #gameSetError() {
+                throw new Error("Game Mode already set");
+        }
 
-		case "quick":
-                        const QUICK_MODE_ITERATIONS = 5;
-			startGame = gameFixedNumOfProblems(QUICK_MODE_ITERATIONS);
-                        break;
+        #saveScore() {
+                sessionStorage.setItem("score", this.#stats.toJsonString());
+        }
 
-		case "countdown":
-			startGame = async () => {
-				const reductionRate = 0.95;
-				let currentTime = 60; // initial time
-				const reduceTime = () => { currentTime = currentTime * reductionRate }; // add an option to add the stats bit
-                                // create a new stat object to aggregate stats, get time it takes to do 1 problem, make sure stat object has gameModeOptions as a paramter
-                                // new stat point has time taken to do problem, problem, problem type 
-                                // every problem type has a different stat chart
-                                // game-over.js will iterate over stats and make the graphs accordingly
+        setGameModeOptions(gameModeOptions) {
+                this.#gameModeOptions = gameModeOptions;
+        }
 
-				for (let problemNum = 1;;problemNum++) {
-					let timer = new Timer(currentTime * 1000, reduceTime);
-					timer.start();
+        setFixedNumOfProblems(NumOfProblems) {
+                if (!this.#game) {
+                        this.#game = async () => {
+                                const stopwatch = new Stopwatch();
+                                stopwatch.start();
+                                for (let problemNum = 1 ; problemNum <= NumOfProblems; problemNum++) {
 
-                                        let problemSet = getNextProblemSet(problemNum, gameModeOptions);
-					await handleGameDisplay(problemSet);
+                                        let problemProp = getNextProblemProp(problemNum, this.#gameModeOptions);
 
-					console.log(timer.cancel());
-				}
-			}
-			break;
+                                        let currentProblem = generateProblem(problemProp);
+                                        await handleGameDisplay(problemNum, currentProblem);
+                                }
+                                console.log(stopwatch.stop());
+                        }
+                } else {
+                        this.#gameSetError();
 
-	}
-	return startGame;
+                }
+        }
 
+        setProblemsWithCountDown() {
+                this.#game = async () => {
+                        const reductionRate = 0.95;
+                        let currentTime = 60; // also initial time
+
+                        const reduceTime = () => { currentTime = currentTime * reductionRate }; 
+
+                        for (let problemNum = 1;;problemNum++) {
+
+                                let timer = new Timer(currentTime * 1000, reduceTime);
+                                timer.start();
+
+                                let problemProp = getNextProblemProp(problemNum, this.#gameModeOptions);
+                                let currentProblem = generateProblem(problemProp);
+                                await handleGameDisplay(problemNum, currentProblem);
+
+                                let timeTaken = timer.cancel();
+
+                                let point = new StatPoint(problemProp, currentProblem.problem, timeTaken)
+                                this.#stats.addPoint(point);
+                        }
+                }
+
+        }
+
+        static handleGameOptions(gameMode, gameModeOptions) {
+                const newGame = new Game();
+                newGame.setGameModeOptions(gameModeOptions);
+                switch (gameMode) {
+                        case "casual":
+                                const CASUAL_MODE_ITERATIONS = 40;
+                                newGame.setFixedNumOfProblems(CASUAL_MODE_ITERATIONS);
+                                break;
+
+                        case "quick":
+                                const QUICK_MODE_ITERATIONS = 5;
+                                newGame.setFixedNumOfProblems(QUICK_MODE_ITERATIONS);
+                                break;
+                        case "countdown":
+                                newGame.setProblemsWithCountDown();
+                                break;
+                }
+                return newGame;
+        }
+
+        play() {
+                if (this.game && this.#gameModeOptions) {
+                        this.game();
+                } else {
+                        throw new Error("Game Mode options and game type must be set");
+                }
+                return this.score;
+        }
+
+        score() {
+                // return stats
+                return this.#stats
+        }
 }
 
-const game = handleGame(gameMode, gameModeOptions);
-game();
+const game = Game.handleGameOptions(gameMode, gameModeOptions);
+game.play();

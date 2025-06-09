@@ -23,7 +23,7 @@ export class StatPoint {
 	}
 
 	#individualDigits(num) {
-		const decompNum = this.decompSecondNum(num);
+		const decompNum = this.#decomposeNum(num);
 		for (let i = 0; i < decompNum.length; i++) {
 			decompNum[i] = parseInt(decompNum[i].toString()[0]);
 		}
@@ -52,46 +52,51 @@ export class StatPoint {
 
 	digitPerSec() {
 		let totalDigits = 0;
-		switch(gameModeOption.type) {
+		switch(this.gameModeOption.type) {
 			case 'sums':
 				// digit count divided by time
 				for (const num of this.problem) {
-					totalDigits += this.getDigitsFromNum(num);
+					totalDigits += this.#getDigitsFromNum(num);
 				}
 				break;
 
-			case 'mult':
-				const firstNum = problem[0];
-				const secondNum = problem[1];
+			case 'mult': { 
+				const firstNum = this.problem[0];
+				const secondNum = this.problem[1];
+                                console.log(firstNum, secondNum);
 				
-				const firstNumDigits = this.getDigitsFromNum(firstNum);
-				const secondNumDigits = this.getDigitsFromNum(secondNum);
+				const firstNumDigits = this.#getDigitsFromNum(firstNum);
+				const secondNumDigits = this.#getDigitsFromNum(secondNum);
 
 				const everyMutlisADigitProcessed = firstNumDigits * secondNumDigits;
 
-				const decompSecondNum = this.decomposeNum(secondNum);
+				const decompSecondNum = this.#decomposeNum(secondNum);
 
 				// count digits
 				totalDigits += everyMutlisADigitProcessed;
 				for (const decompNum of decompSecondNum) {
-					totalDigits += this.getDigitsFromNum(decompNum * firstNum);
+                                        console.log("decompNum", decompNum);
+					totalDigits += this.#getDigitsFromNum(decompNum * firstNum);
 				}
+                                console.log("Mult total digits", totalDigits);
 				break;
+                        }
 
-			case 'div':
-				const firstNum = problem[0];
-				const secondNum = problem[1];
+			case 'div': {
+				const firstNum = this.problem[0];
+				const secondNum = this.problem[1];
 				const answer = firstNum / secondNum;
-				const numberOfMults = this.getDigitsFromNum(answer);
+				const numberOfMults = this.#getDigitsFromNum(answer);
 
 				totalDigits += numberOfMults;
 				
-				const individualDigitsAnswer = this.individualDigits(answer);
+				const individualDigitsAnswer = this.#individualDigits(answer);
 
 				for (const answerDigit of individualDigitsAnswer) {
-					totalDigits += this.getDigitsFromNum(answerDigit * secondNum);
+					totalDigits += this.#getDigitsFromNum(answerDigit * secondNum);
 				}
 				break;
+                        }
 		}
 		return totalDigits/this.time;
 	}
@@ -111,7 +116,7 @@ export class Stats {
         }
 
         addPoint(point) {
-                pointList[point.type].push(point);
+                this.pointList[point.type].push(point);
         }
 
         mean() {
@@ -120,12 +125,12 @@ export class Stats {
 		return { 'sums' : average['sums'], 'mult' : average['mult'], 'div': average['div'] };
         }
 
-        toJson() {
+        toJsonString() {
 		return JSON.stringify(this);
         }
 
-        static fromJson(json) {
-		return new Stats(pointList = JSON.parse(json));
+        static fromJsonString(jsonString) {
+		return new Stats(JSON.parse(json));
         }
 
 }
