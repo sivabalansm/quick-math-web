@@ -13,7 +13,7 @@ class Stopwatch {
 
 	start() {
 		this.startTime = Date.now();
-                this.lapTime = this.startTime;
+                this.lapTime = 0;
 		this.#stopwatch = setInterval(() => {
 			this.currentTime = ((Date.now() - this.startTime)/1000).toFixed(2);
 
