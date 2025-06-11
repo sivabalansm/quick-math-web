@@ -58,6 +58,10 @@ class Game {
                 throw new Error("Game Mode already set");
         }
 
+        #initialize() {
+                sessionStorage.setItem("score", "");
+        }
+
         #saveScore() {
                 sessionStorage.setItem("score", this.#stats.toJsonString());
         }
@@ -66,6 +70,8 @@ class Game {
                 this.#gameModeOptions = gameModeOptions;
         }
 
+
+
         setFixedNumOfProblems(NumOfProblems) {
                 if (!this.#game) {
                         this.#game = async () => {
@@ -73,10 +79,14 @@ class Game {
                                 stopwatch.start();
                                 for (let problemNum = 1 ; problemNum <= NumOfProblems; problemNum++) {
 
-                                        let problemProp = getNextProblemProp(problemNum, this.#gameModeOptions);
-
-                                        let currentProblem = generateProblem(problemProp);
+                                        const problemProp = getNextProblemProp(problemNum, this.#gameModeOptions);
+                                        const currentProblem = generateProblem(problemProp);
                                         await handleGameDisplay(problemNum, currentProblem);
+
+                                        const timeTaken = stopwatch.lap();
+                                        const point = new StatPoint(problemProp, currentProblem.problem, timeTaken)
+                                        this.#stats.addPoint(point);
+
                                 }
                                 console.log(stopwatch.stop());
                         }
@@ -95,20 +105,23 @@ class Game {
 
                         for (let problemNum = 1;;problemNum++) {
 
-                                let timer = new Timer(currentTime * 1000, reduceTime);
+                                const timer = new Timer(currentTime * 1000, reduceTime);
                                 timer.start();
 
-                                let problemProp = getNextProblemProp(problemNum, this.#gameModeOptions);
-                                let currentProblem = generateProblem(problemProp);
+                                const problemProp = getNextProblemProp(problemNum, this.#gameModeOptions);
+                                const currentProblem = generateProblem(problemProp);
                                 await handleGameDisplay(problemNum, currentProblem);
 
-                                let timeTaken = timer.cancel();
-
-                                let point = new StatPoint(problemProp, currentProblem.problem, timeTaken)
+                                const timeTaken = timer.cancel();
+                                const point = new StatPoint(problemProp, currentProblem.problem, timeTaken)
                                 this.#stats.addPoint(point);
                         }
                 }
 
+        }
+
+        endGame() {
+                this.#saveScore();
         }
 
         static handleGameOptions(gameMode, gameModeOptions) {
@@ -132,6 +145,7 @@ class Game {
         }
 
         play() {
+                this.#initialize();
                 if (this.game && this.#gameModeOptions) {
                         this.game();
                 } else {
