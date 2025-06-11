@@ -40,7 +40,8 @@ class Timer {
 	
 	// our two pseudo async functions (setTimeout, setInterval) variable holders
 	#timer;
-	cleanUpFunc;
+	onCancel;
+	onTimeout;
 	#displayUpdateinterval;
 
 	updateInterval = 10;
@@ -51,9 +52,10 @@ class Timer {
 
 
 
-	constructor(time, cleanUpFunc = () => null) {
+	constructor(time, onCancel = () => null, onTimeout = () => null) {
 		this.time = time;
-		this.cleanUpFunc = cleanUpFunc;
+		this.onCancel = onCancel;
+		this.onTimeout = onTimeout;
 	}
 
 
@@ -63,8 +65,7 @@ class Timer {
 		this.#timer = setTimeout(() => {
 			clearInterval(this.#displayUpdateinterval);
 			this.updateElementFunction(0);
-			console.log("sucks to be you");
-
+			this.onTimeout();
 		}, this.time);
 
 		this.#displayUpdateinterval = setInterval(() => {
@@ -76,7 +77,7 @@ class Timer {
 	cancel() {
 		clearTimeout(this.#timer);
 		clearInterval(this.#displayUpdateinterval);
-		this.cleanUpFunc();
+		this.onCancel();
 		return (Date.now() - this.#startTime);
 	}
 
