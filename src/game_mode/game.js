@@ -102,10 +102,11 @@ class Game {
                         let currentTime = 60; // also initial time
 
                         const reduceTime = () => { currentTime = currentTime * reductionRate }; 
+			const onTimeout = () => { this.endGame() };
 
                         for (let problemNum = 1;;problemNum++) {
 
-                                const timer = new Timer(currentTime * 1000, reduceTime);
+                                const timer = new Timer(currentTime * 1000, reduceTime, onTimeout);
                                 timer.start();
 
                                 const problemProp = getNextProblemProp(problemNum, this.#gameModeOptions);
@@ -122,6 +123,7 @@ class Game {
 
         endGame() {
                 this.#saveScore();
+		window.location.href = window.location.origin + "/game_mode/game-over.html";
         }
 
         static handleGameOptions(gameMode, gameModeOptions) {
@@ -144,14 +146,14 @@ class Game {
                 return newGame;
         }
 
-        play() {
+        async play() {
                 this.#initialize();
                 if (this.game && this.#gameModeOptions) {
-                        this.game();
+                        await this.game();
+			this.endGame();
                 } else {
                         throw new Error("Game Mode options and game type must be set");
                 }
-                return this.score;
         }
 
         score() {
