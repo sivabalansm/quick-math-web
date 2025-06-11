@@ -123,7 +123,7 @@ class Game {
 
         endGame() {
                 this.#saveScore();
-		window.location.href = window.location.origin + "/game_mode/game-over.html";
+		window.location = "game-over.html";
         }
 
         static handleGameOptions(gameMode, gameModeOptions) {
