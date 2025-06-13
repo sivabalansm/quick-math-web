@@ -37,6 +37,10 @@ export class StatPoint {
 		this.time = time;
         }
 
+	static fromObj({gameModeOption, time, problem}){
+		return new StatPoint(gameModeOption, problem, time);
+	}
+
 	// getters
 	get type() {
 		return this.gameModeOption.type;
@@ -105,12 +109,6 @@ export class StatPoint {
 export class Stats {
         pointList = { 'sums' : [], 'mult' : [], 'div' : [] };
 
-        // getters
-        get pointList() {
-                return this.pointList;
-
-        }
-
         constructor(pointList = this.pointList) {
 		this.pointList = pointList;
         }
@@ -121,8 +119,12 @@ export class Stats {
 
         mean() {
 		const pointToDigitsPerSec = (num) => num.digitPerSec();
-		const average = (category) => ((pointList[category].map(pointToDigitsPerSec)).reduce((a, b) => a + b) / pointList[category].length)
-		return { 'sums' : average['sums'], 'mult' : average['mult'], 'div': average['div'] };
+		const average = (category) => {
+			if (this.pointList[category].length > 0)
+				return (this.pointList[category].map(pointToDigitsPerSec)).reduce((a, b) => a + b) / this.pointList[category].length
+			return null;
+		}
+		return { 'sums' : average('sums'), 'mult' : average('mult'), 'div': average('div') };
         }
 
         toJsonString() {
@@ -130,7 +132,15 @@ export class Stats {
         }
 
         static fromJsonString(jsonString) {
-		return new Stats(JSON.parse(json));
+		let stats = new Stats((JSON.parse(jsonString)).pointList);
+
+		for (const category in stats.pointList) {
+			for (let i = 0; i < stats.pointList[category].length; i++) {
+				stats.pointList[category][i] = StatPoint.fromObj(stats.pointList[category][i]);
+			}
+		}
+		return stats;
+
         }
 
 }
