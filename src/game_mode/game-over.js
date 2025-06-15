@@ -1,12 +1,9 @@
 import { StatPoint, Stats } from './stats.js';
+import { rangeOfNums } from './utils.js';
 
 const ctx = document.getElementById('myChart');
 
 let score = sessionStorage.getItem("score");
-
-function arrayRangeNum(start, stop) {
-	return Array.from({length: stop - start}, (value, index) => start + index);
-}
 
 if (score) {
 	// console.log(score);
@@ -14,7 +11,7 @@ if (score) {
 	new Chart(ctx, {
 		type: 'line',
 		data: {
-			labels: arrayRangeNum(1, stats.pointList["sums"].length + 1),
+			labels: rangeOfNums(1, stats.pointList["sums"].length + 1),
 			datasets: [{
 				label: 'Time taken per problem',
 				data: stats.pointList["sums"].map((statPoint) => statPoint.time),
@@ -31,4 +28,11 @@ if (score) {
 	});
 }
 
+class Score {
+	stats = null;
 
+	constructor(stats) {
+		this.stats = stats;
+	}
+
+}
