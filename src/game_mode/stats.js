@@ -67,7 +67,6 @@ export class StatPoint {
 			case 'mult': { 
 				const firstNum = this.problem[0];
 				const secondNum = this.problem[1];
-                                console.log(firstNum, secondNum);
 				
 				const firstNumDigits = this.#getDigitsFromNum(firstNum);
 				const secondNumDigits = this.#getDigitsFromNum(secondNum);
@@ -79,10 +78,9 @@ export class StatPoint {
 				// count digits
 				totalDigits += everyMutlisADigitProcessed;
 				for (const decompNum of decompSecondNum) {
-                                        console.log("decompNum", decompNum);
 					totalDigits += this.#getDigitsFromNum(decompNum * firstNum);
 				}
-                                console.log("Mult total digits", totalDigits);
+                                
 				break;
                         }
 
