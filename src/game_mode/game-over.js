@@ -7,20 +7,22 @@ let score = sessionStorage.getItem("score");
 
 
 class Score {
-	stats = null;
+	problemTypeStats = null;
+        problemType = null;
 
-	constructor(stats) {
-		this.stats = stats;
+	constructor(stats, problemType) {
+		this.problemTypeStats = stats.pointList[problemType];
+                this.problemType = problemType;
 	}
 
 	createChart(description, getDataFromPointFunc) {
 		return {
 				type: 'line',
 				data: {
-					labels: rangeOfNums(1, this.stats.length + 1),
+					labels: rangeOfNums(1, this.problemTypeStats.length + 1),
 					datasets: [{
 						label: description,
-						data: this.stats.map(getDataFromPointFunc),
+						data: this.problemTypeStats.map(getDataFromPointFunc),
 						borderWidth: 1
 					}]
 				},
@@ -35,18 +37,39 @@ class Score {
 	}
 }
 
+class RenderScoreChart {
+        #score = null;
+        constructor(score) {
+                this.#score = score;
+        }
+
+        #renderCustomChart(chart) {
+                renderChart(this.#score.problemType, chart);
+        }
+
+        renderTimeChart() {
+                let timeChart = this.#score.createChart(`Time of each ${this.#score.problemType} problem in seconds`, (statPoint) => statPoint.time);
+                this.#renderCustomChart(timeChart);
+        }
+
+        renderDPSChart() {
+                let dpsChart = this.#score.createChart(`Digits per second of each ${this.#score.problemType} problem`, (statPoint) => statPoint.digitPerSec());
+                this.#renderCustomChart(dpsChart);
+        }
+
+}
+
 
 let stats = Stats.fromJsonString(score);
-let scoreMult = new Score(stats.pointList["mult"]);
-let scoreSums = new Score(stats.pointList["sums"]);
-let scoreDiv = new Score(stats.pointList["div"]);
+let scoreMult = new Score(stats, "mult");
+let scoreSums = new Score(stats, "sums");
+let scoreDiv = new Score(stats, "div");
 
-let multTimeChart = scoreMult.createChart("multTimeChart", (statPoint) => statPoint.time); 
-renderChart("mult", multTimeChart);
-let multDpsChart = scoreMult.createChart("multDpsChart", (statPoint) => statPoint.digitPerSec()); 
-renderChart("mult", multDpsChart);
+function showMyCharts(score) {
+        let scoreCharts = new RenderScoreChart(score);
+        scoreCharts.renderTimeChart();
+        scoreCharts.renderDPSChart();
+}
 
-let sumsTimeChart = scoreSums.createChart("sumsTimeChart", (statPoint) => statPoint.time); 
-renderChart("sums", sumsTimeChart);
-let sumsDpsChart = scoreSums.createChart("sumsDpsChart", (statPoint) => statPoint.digitPerSec()); 
-renderChart("sums", sumsDpsChart);
+showMyCharts(scoreSums);
+showMyCharts(scoreMult);
