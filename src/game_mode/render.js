@@ -21,3 +21,10 @@ export function renderProblem(numArray) {
 export function renderProblemNum(num) {
 	document.getElementById("problem-number").innerHTML = num;
 }
+
+export function renderChart(problemType, chart) {
+	const chartSectionForProblemType = document.getElementById(problemType);
+	const newChartCtx = document.createElement("canvas");
+	chartSectionForProblemType.appendChild(newChartCtx);
+	new Chart(newChartCtx, chart); 
+}
