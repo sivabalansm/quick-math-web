@@ -16,24 +16,27 @@ class Score {
 	}
 
 	createChart(description, getDataFromPointFunc) {
-		return {
-				type: 'line',
-				data: {
-					labels: rangeOfNums(1, this.problemTypeStats.length + 1),
-					datasets: [{
-						label: description,
-						data: this.problemTypeStats.map(getDataFromPointFunc),
-						borderWidth: 1
-					}]
-				},
-				options: {
-					scales: {
-						y: {
-							beginAtZero: true
-						}
-					}
-				}
-		};
+                if (this.problemTypeStats.length > 0) 
+                        return {
+                                        type: 'line',
+                                        data: {
+                                                labels: rangeOfNums(1, this.problemTypeStats.length + 1),
+                                                datasets: [{
+                                                        label: description,
+                                                        data: this.problemTypeStats.map(getDataFromPointFunc),
+                                                        borderWidth: 1
+                                                }]
+                                        },
+                                        options: {
+                                                scales: {
+                                                        y: {
+                                                                beginAtZero: true
+                                                        }
+                                                }
+                                        }
+                        };
+                throw new Error(`${this.problemType} problem type has no data points`);
+                return null;
 	}
 }
 
