@@ -1,6 +1,6 @@
 import { StatPoint, Stats } from './stats.js';
 import { rangeOfNums } from './utils.js';
-import { renderChart, handleResizeChartRender } from './render.js';
+import { renderChart, handleResizeChartRender, renderStatAfterCharts } from './render.js';
 
 const ctx = document.getElementById('myChart');
 let score = sessionStorage.getItem("score");
@@ -69,17 +69,31 @@ class RenderScoreChart {
 class RenderGameStats {
 	#stats = null;
 	#averageTimes = null;
+	#totalTimes = null;
 
 	constructor(stats) {
 		this.#stats = stats;
 		this.#averageTimes = stats.meanTime();
+		this.#totalTimes = stats.totalTime();
 	}
 
 	renderAverageTimes() {
-		for (const problemType of this.#averageTimes) {
+		for (const problemType in this.#averageTimes) {
 			const averageTime = this.#averageTimes[problemType];
-			averageTime && renderAverageTimeProblemType(problemType, averageTime);
+			averageTime && renderStatAfterCharts(problemType, "Average Time", averageTime);
 		}
+	}
+
+	renderTotalTimes() {
+		for (const problemType in this.#totalTimes) {
+			const totalTime = this.#totalTimes[problemType];
+			totalTime && renderStatAfterCharts(problemType, "Total Time", totalTime);
+		}
+	}
+
+	renderTotal() {
+		const totalTimeTaken = Object.values(this.#totalTimes).reduce((a, b) => a + b, 0);
+		renderStatAfterCharts("scoreboard", "Total Time Taken", totalTimeTaken);
 	}
 }
 
@@ -90,14 +104,20 @@ let scoreMult = new Score(stats, "mult");
 let scoreSums = new Score(stats, "sums");
 let scoreDiv = new Score(stats, "div");
 
-function showMyCharts(score) {
+function showMyScore(score) {
         let scoreCharts = new RenderScoreChart(score);
         scoreCharts.renderTimeChart();
         scoreCharts.renderDPSChart();
+
 }
 
-showMyCharts(scoreSums);
-showMyCharts(scoreMult);
+showMyScore(scoreSums);
+showMyScore(scoreMult);
+
+let gameStats = new RenderGameStats(stats);
+gameStats.renderTotalTimes();
+gameStats.renderAverageTimes();
+gameStats.renderTotal();
 
 handleResizeChartRender();
 

@@ -115,6 +115,11 @@ export class Stats {
                 this.pointList[point.type].push(point);
         }
 
+	totalTime() {
+		const totalTimeProblemType = (problemType) => this.pointList[problemType].length > 0 ? this.pointList[problemType].map((point) => point.time).reduce((a, b) => a + b, 0) : null;
+		return { 'sums': totalTimeProblemType('sums'), 'mult': totalTimeProblemType('mult'), 'div': totalTimeProblemType('div') };
+	}
+
         mean(meanOverFunc) {
 		const average = (category) => {
 			if (this.pointList[category].length > 0)
@@ -125,11 +130,11 @@ export class Stats {
         }
 
 	meanDPS() {
-		return this.mean((num) => num.digitPerSec());
+		return this.mean((point) => point.digitPerSec());
 	}
 
 	meanTime() {
-		return this.mean((num) => num.time);
+		return this.mean((point) => point.time);
 	}
 
         toJsonString() {

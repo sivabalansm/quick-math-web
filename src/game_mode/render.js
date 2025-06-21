@@ -42,3 +42,10 @@ export function handleResizeChartRender() {
 	});
 }
 
+export function renderStatAfterCharts(problemType, label, stat) {
+	const statContainer = document.createElement("div");
+	statContainer.textContent = `${label}: ${stat}`;
+
+	const chartSectionForProblemType = document.getElementById(problemType);
+	chartSectionForProblemType.after(statContainer);
+}
