@@ -108,22 +108,9 @@ input {
 
 /* Start Button */
 #game > button {
-	text-align: center;
-	background-color: var(--primary-yellow);
-	color: var(--primary-fg);
-	font-size: 20px;
-	border-radius: 20px;
-	border: 0px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	padding-left: 15px;
-	padding-right: 15px;
 	margin-top: 10px;
 }
-#game > button:hover {
-	color: var(--hover-color);
 
-}
 
 @media only screen and (max-width: 700px) {
 	html {

@@ -12,3 +12,24 @@
   color: var(--primary-fg);
   font-size: 20px;
 }
+
+.button {
+	text-align: center;
+	background-color: var(--primary-yellow);
+	color: var(--primary-fg);
+	font-size: 20px;
+
+	border-radius: 20px;
+	border: 0px;
+
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.button:hover {
+	color: var(--hover-color);
+
+}
+
