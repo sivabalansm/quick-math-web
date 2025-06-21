@@ -115,15 +115,22 @@ export class Stats {
                 this.pointList[point.type].push(point);
         }
 
-        mean() {
-		const pointToDigitsPerSec = (num) => num.digitPerSec();
+        mean(meanOverFunc) {
 		const average = (category) => {
 			if (this.pointList[category].length > 0)
-				return (this.pointList[category].map(pointToDigitsPerSec)).reduce((a, b) => a + b) / this.pointList[category].length
+				return (this.pointList[category].map(meanOverFunc)).reduce((a, b) => a + b) / this.pointList[category].length
 			return null;
 		}
 		return { 'sums' : average('sums'), 'mult' : average('mult'), 'div': average('div') };
         }
+
+	meanDPS() {
+		return this.mean((num) => num.digitPerSec());
+	}
+
+	meanTime() {
+		return this.mean((num) => num.time);
+	}
 
         toJsonString() {
 		return JSON.stringify(this);

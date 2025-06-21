@@ -66,6 +66,24 @@ class RenderScoreChart {
 
 }
 
+class RenderGameStats {
+	#stats = null;
+	#averageTimes = null;
+
+	constructor(stats) {
+		this.#stats = stats;
+		this.#averageTimes = stats.meanTime();
+	}
+
+	renderAverageTimes() {
+		for (const problemType of this.#averageTimes) {
+			const averageTime = this.#averageTimes[problemType];
+			averageTime && renderAverageTimeProblemType(problemType, averageTime);
+		}
+	}
+}
+
+
 
 let stats = Stats.fromJsonString(score);
 let scoreMult = new Score(stats, "mult");
