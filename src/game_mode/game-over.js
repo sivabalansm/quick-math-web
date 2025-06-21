@@ -1,6 +1,6 @@
 import { StatPoint, Stats } from './stats.js';
 import { rangeOfNums } from './utils.js';
-import { renderChart } from './render.js';
+import { renderChart, handleResizeChartRender } from './render.js';
 
 const ctx = document.getElementById('myChart');
 let score = sessionStorage.getItem("score");
@@ -28,6 +28,8 @@ class Score {
                                                 }]
                                         },
                                         options: {
+						responsive: true,
+						maintainAspectRatio: true,
                                                 scales: {
                                                         y: {
                                                                 beginAtZero: true
@@ -76,3 +78,6 @@ function showMyCharts(score) {
 
 showMyCharts(scoreSums);
 showMyCharts(scoreMult);
+
+handleResizeChartRender();
+

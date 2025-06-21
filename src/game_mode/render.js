@@ -25,6 +25,20 @@ export function renderProblemNum(num) {
 export function renderChart(problemType, chart) {
 	const chartSectionForProblemType = document.getElementById(problemType);
 	const newChartCtx = document.createElement("canvas");
-	chartSectionForProblemType.appendChild(newChartCtx);
+	const containerForChart = document.createElement("div"); // chart auto responsivness potential fix?
+	containerForChart.classList.add("chart-container");
+	containerForChart.appendChild(newChartCtx);
+
+	chartSectionForProblemType.appendChild(containerForChart);
 	new Chart(newChartCtx, chart); 
 }
+
+// Resize charts when resizing the window (chartjs does not do this automatically)
+export function handleResizeChartRender() {
+	window.addEventListener("resize", (event) => {
+		for (let id in Chart.instances) {
+			Chart.instances[id].resize();
+		}
+	});
+}
+

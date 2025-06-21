@@ -5,10 +5,3 @@
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); 
   gap: 1rem;
 }
-
-/**/
-canvas {
-	max-width: 100%;
-	height: auto;
-	display: block;
-}
