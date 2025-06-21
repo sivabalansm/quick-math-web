@@ -5,6 +5,7 @@ import { renderChart, handleResizeChartRender } from './render.js';
 const ctx = document.getElementById('myChart');
 let score = sessionStorage.getItem("score");
 
+const YELLOWCOLOR = getComputedStyle(document.documentElement).getPropertyValue('--primary-yellow').trim()
 
 class Score {
 	problemTypeStats = null;
@@ -24,7 +25,8 @@ class Score {
                                                 datasets: [{
                                                         label: description,
                                                         data: this.problemTypeStats.map(getDataFromPointFunc),
-                                                        borderWidth: 1
+                                                        borderWidth: 1,
+							borderColor: YELLOWCOLOR
                                                 }]
                                         },
                                         options: {
