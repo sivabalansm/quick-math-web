@@ -1,0 +1,10 @@
+{
+"name": "Quick Math Web",
+  "short_name": "QMW",
+  "theme_color": "#646669",
+  "background_color": "#323437",
+  "display": "standalone",
+  "Scope": "",
+  "start_url": "/",
+  "icons": [ "./favicon.ico" ]
+}
